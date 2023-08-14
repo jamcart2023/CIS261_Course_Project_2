@@ -1,0 +1,90 @@
+# James Carter CIS 261 Course Project II
+
+def getDatesWorked():
+    fromDate = input("Please enter start date in the following format MM/DD/YYYY: ")
+    endDate = input("Please enter end date in the following format MM/DD/YYYY: ")
+    return fromDate, endDate 
+
+def getEmpName():
+    empName = input("Enter employee name: ")
+    return empName
+
+def getHoursWorked():
+    hours = float(input("Enter hours: "))
+    return hours
+
+def getHourlyRate():
+    hourlyRate = float(input("Enter hourly rate: "))
+    return hourlyRate
+
+def getTaxRate():
+    taxRate = float(input("Enter tax rate: "))
+    return taxRate
+
+def gPay(totalHours, hourlyRate):
+    gPay = float(totalHours) * float(hourlyRate)
+    return gPay 
+
+def CalcTaxAndNetPay(hours, hourlyRate, taxRate):
+    pay = hours * hourlyRate
+    incomeTax = gPay * taxRate
+    netPay = gPay - incomeTax
+    return gPay, incomeTax, netPay
+
+def printInfo(empInfoList):
+    totalEmployees = 0
+    totalHours = 0.00
+    totalGrossPay = 0.00
+    totalTax = 0.00
+    totalNetPay = 0.00
+    for empList in empInfoList:
+        fromDate = empInfoList[0]
+        endDate = empInfoList[1]
+        empName = empInfoList[2]
+        hours = empInfoList[3]
+        hourlyRate = empInfoList[4]
+        taxRate = empInfoList[5]
+
+        gPay, incomeTax, netPay = CalcTaxAndNetPay(hours, hourlyRate, taxRate)
+        print(fromDate, endDate, empName, f"{hours:,.2f}", f"{hourlyRate:,.2f}", f"{gPay:,.2f}", f"{taxRate:,.1%}", f"{incomeTax:,.2f}", f"{netPay:,.2f}")
+        totalEmployees += 1
+        totalHours += hours
+        totalGrossPay += gPay
+        totalTax += incomeTax
+        totalNetPay += netPay
+
+        empTotal["totEmp"] = totalEmployees
+        empTotal["totHours"] = totalHours
+        empTotal["totGross"] = totalGrossPay
+        empTotal["totTax"] = totalTax
+        empTotal["totNet"] = totalNetPay
+
+def printTotal(empTotals):
+    print(f'Total Number of Employees: {empTotals["totEmp"]}')
+    print(f'total hours of the Employees: {empTotals["tothours"]}')
+    print(f'To9tal Gross Pay of Employees:    {empTotals["totGross"]}')
+    print(f'Total tax of Employees: {empTotals["totTax"]}')       
+    print(f'Total Net Pay of Employees: {empTotals["totNet"]}')     
+
+if __name__ == "__main__":
+    empInfoList =[]
+    empTotal = {}
+    while True:
+        empName = getEmpName()
+        if (empName.lower() == "end"):
+            break
+        fromDate, endDate = getDatesWorked()
+        hours = getHoursWorked()
+        hourlyRate = getHourlyRate()
+        taxRate = getTaxRate()
+        empInfo = []
+        empInfo.insert(0, fromDate)
+        empInfo.insert(1, endDate)
+        empInfo.insert(2, empName)
+        empInfo.insert(3, hours)
+        empInfo.insert(4, hourlyRate)
+        empInfo.insert(5, taxRate)
+        empInfoList.append(empInfo)
+    printInfo(empInfoList)
+    printTotal(empTotal)           
+
